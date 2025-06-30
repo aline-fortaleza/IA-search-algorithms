@@ -186,7 +186,40 @@ class World
     }
   }
 
-  
+  heuristic(a, b)
+  {
+    return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+  }
+
+  greedy(){
+    if (!this.goalFound && this.frontier.length > 0)
+    {
+      let current = this.frontier.shift();
+
+      if (current == this.goal)
+      {
+        this.goalFound = true;
+        this.setPath();
+      }
+
+      for (let next of this.neighbors(current))
+      {
+        if (!this.reached.has(next))
+        {
+          let heuristic = this.heuristic(next, this.goal);
+          next.cost = heuristic; // custo é a heurística
+
+          this.frontier.push(next);
+          this.reached.add(next);
+          this.cameFrom.set(next, current);
+        }
+      }
+
+      // Ordena a fronteira pela heurística
+      this.frontier.sort((a, b) => a.cost - b.cost);
+    }
+  }
+
 
 
   search()
