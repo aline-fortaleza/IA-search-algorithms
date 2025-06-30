@@ -247,6 +247,39 @@ class World
       }
     }
   }
+  heuristic(a, b) {
+  // Distância de Manhattan (pode ajustar conforme necessário)
+  return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+  }
+
+  astar() {
+    if (!this.goalFound && this.frontier.length > 0) {
+      // Ordena a fronteira pelo custo total estimado (f = g + h)
+      this.frontier.sort((a, b) => {
+        const fA = this.costSoFar.get(a) + this.heuristic(a, this.goal);
+        const fB = this.costSoFar.get(b) + this.heuristic(b, this.goal);
+        return fA - fB;
+      });
+
+      let current = this.frontier.shift();
+
+      if (current == this.goal) {
+        this.goalFound = true;
+        this.setPath();
+      }
+
+      for (let next of this.neighbors(current)) {
+        let newCost = this.costSoFar.get(current) + next.cost;
+        if (!this.costSoFar.has(next) || newCost < this.costSoFar.get(next)) {
+          this.costSoFar.set(next, newCost);
+          this.frontier.push(next);
+          this.cameFrom.set(next, current);
+        }
+      }
+    }
+  }
+  
+
 
   search()
   {
