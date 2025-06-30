@@ -247,15 +247,10 @@ class World
       }
     }
   }
-  heuristic(a, b) {
-  // Distância de Manhattan (pode ajustar conforme necessário)
-  return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
-  }
 
   astar() {
     if (!this.goalFound && this.frontier.length > 0) {
-      // Ordena a fronteira pelo custo total estimado (f = g + h)
-      this.frontier.sort((a, b) => {
+        this.frontier.sort((a, b) => {
         const fA = this.costSoFar.get(a) + this.heuristic(a, this.goal);
         const fB = this.costSoFar.get(b) + this.heuristic(b, this.goal);
         return fA - fB;
