@@ -220,7 +220,33 @@ class World
     }
   }
 
-
+  ucs() {
+    if (!this.goalFound && this.frontier.length > 0) {
+      // Simular a priority queue (menor custo primeiro)
+      this.frontier.sort((a, b) => this.costSoFar.get(a) - this.costSoFar.get(b));
+      let current = this.frontier.shift();
+  
+      if (current === this.goal) {
+        this.goalFound = true;
+        this.setPath();
+        return;
+      }
+  
+      for (let next of this.neighbors(current)) {
+        let newCost = this.costSoFar.get(current) + next.cost;
+        
+        if (!this.costSoFar.has(next) || newCost < this.costSoFar.get(next)) {
+          this.costSoFar.set(next, newCost);
+          this.cameFrom.set(next, current);
+          
+          if (!this.reached.has(next)) {
+            this.frontier.push(next);
+            this.reached.add(next);
+          }
+        }
+      }
+    }
+  }
 
   search()
   {
