@@ -6,7 +6,7 @@ Projeto interativo da disciplina de Sistemas Inteligentes do Centro de Informát
 
 - Alice Buarque
 - Aline Fortaleza
-- Arthut Marsaro
+- Arthur Marsaro
 - Beatriz Leão
 - Danilo Lima
 
